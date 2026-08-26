@@ -1,11 +1,7 @@
 package com.example.cadastro1;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,23 +13,18 @@ public class UsuarioController {
 
     final UsuarioRepository usuarioRepository;
 
-    public UsuarioController (UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
-
     @GetMapping
     public List<Usuario> listarTodosUsuarios() {
         return usuarioRepository.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public Usuario buscarUsuarioPorId(@PathVariable UUID id) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
-
-        if (usuarioOpt.isPresent()); {
+        if (usuarioOpt.isPresent()) {
             return usuarioOpt.get();
         } else {
-            throw new RuntimeException("Usuário não encontrado!");
+            throw new RuntimeException("Usuario não encontrado!");
         }
     }
 
@@ -53,7 +44,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletarUsuario(@PathVariable int id) {
+    public void deletarUsuario(@PathVariable UUID id) {
         usuarioRepository.deleteById(id);
     }
 }
